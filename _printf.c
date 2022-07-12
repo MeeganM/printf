@@ -1,51 +1,47 @@
 #include "main.h"
+
 /**
- * _printf - Prints the string
- * @format: A variable that points to a list of arguments
- * @...: The rest of the arguments
- *
- * Return: the length of the printed strin
+ * _printf - produces output according to a format
+ * @format: format string containing the characters and the specifiers
+ * Description: this function will call the get_print() function that will
+ * determine which printing function to call depending on the conversion
+ * specifiers contained into fmt
+ * Return: length of the formatted output string
  */
 int _printf(const char *format, ...)
 {
-	int pos;
-	va_list ptr;
-	char buff[2000];
-	char *add = &buff[0];
+	int (*pfunc)(va_list, flags_t *);
+	const char *p;
+	va_list arguments;
+	flags_t flags = {0, 0, 0};
 
-	va_start(ptr, format);
+	register int count = 0;
 
-	if ((format == NULL) || (*(format) == '%' && *(format + 1) == '\0'))
+	va_start(arguments, format);
+	if (!format || (format[0] == '%' && !format[1]))
 		return (-1);
-	if (*(format) == '\0')
-		return (0);
-	for (pos = 0; *(format + pos) != '\0'; pos++)
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+		return (-1);
+	for (p = format; *p; p++)
 	{
-		if (*(format + pos) == '%' && *(format + pos + 1) == '%')
+		if (*p == '%')
 		{
-			*add = *(format + pos);
-			add++;
-			/*count +=write(1, format + pos, 1);*/
-			pos++;
-			continue;
-		}
-		if (*(format + pos) == '%' && *(format + pos + 1) == '\0')
-		{
-			return (-1);
-		}
-		if (*(format + pos) == '%')
-		{
-			if (match_case(format + pos + 1) != NULL)
+			p++;
+			if (*p == '%')
 			{
-				match_case(format + pos + 1)(ptr, &add);
-				pos++;
+				count += _putchar('%');
 				continue;
 			}
-		}
-		*add = *(format + pos);
-		add++;
-		/*count += write(1, format + pos, 1);*/
+			while (get_flag(*p, &flags))
+				p++;
+			pfunc = get_print(*p);
+			count += (pfunc)
+				? pfunc(arguments, &flags)
+				: _printf("%%%c", *p);
+		} else
+			count += _putchar(*p);
 	}
-	va_end(ptr);
-	return (_putchar(buff, add - (char *)buff));
+	_putchar(-1);
+	va_end(arguments);
+	return (count);
 }

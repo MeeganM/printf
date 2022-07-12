@@ -1,49 +1,76 @@
-#ifndef HEADER_H
-#define HEADER_H
+#ifndef HOLBERTON_H
+#define HOLBERTON_H
 
-#include <stdarg.h>
 #include <stdlib.h>
-#include <unistd.h>
-
-int _printf(const char *format, ...);
+#include <stdarg.h>
 
 /**
- * struct case_match - Stores a flag and the function
- * pointer associated with it
- * @c: Pointer to the flag
- * @f: Pointer to function
- *
- * Description: Longer description
+ * struct flags - struct containing flags to "turn on"
+ * when a flag specifier is passed to _printf()
+ * @plus: flag for the '+' character
+ * @space: flag for the ' ' character
+ * @hash: flag for the '#' character
  */
-typedef struct case_match
+typedef struct flags
 {
-	char *c;
-	int (*f)(va_list, char **);
-} c_mtc;
-/* ------------------------------------*/
-int _putchar(char *, int);
-int _strlen(char *);
-char *_strcpy(char *, char *);
-char *_strcat(char *, char *);
-/* --------------------------- */
-int char_case(va_list, char **);
-int string_case(va_list, char **);
-int digit_case_u(va_list ptr, char **);
-int digit_case_S(va_list ptr, char **);
-int digit_case_address(va_list ptr, char **);
+	int plus;
+	int space;
+	int hash;
+} flags_t;
 
-int digit_base_10(va_list, char **);
-int digit_base_2(va_list, char **);
-int digit_base_8(va_list, char **);
-int digit_base_16_lower(va_list, char **);
-int digit_base_16_upper(va_list, char **);
+/**
+ * struct printHandler - struct to choose the right function depending
+ * on the format specifier passed to _printf()
+ * @c: format specifier
+ * @f: pointer to the correct printing function
+ */
+typedef struct printHandler
+{
+	char c;
+	int (*f)(va_list ap, flags_t *f);
+} ph;
 
-int rot13(va_list list, char **add);
-/*------------------------------------*/
-int restriction_percentage(const char *str);
-int (*match_case(const char *))(va_list, char **);
-int convert_base(int base, long int number, int band, char **);
-int print_number(long int n, char **add);
-int print_rev_string(va_list list, char **add);
+/* print_nums */
+int print_int(va_list l, flags_t *f);
+void print_number(int n);
+int print_unsigned(va_list l, flags_t *f);
+int count_digit(int i);
+
+/* print_bases */
+int print_hex(va_list l, flags_t *f);
+int print_hex_big(va_list l, flags_t *f);
+int print_binary(va_list l, flags_t *f);
+int print_octal(va_list l, flags_t *f);
+
+/* converter */
+char *convert(unsigned long int num, int base, int lowercase);
+
+/* _printf */
+int _printf(const char *format, ...);
+
+/* get_print */
+int (*get_print(char s))(va_list, flags_t *);
+
+/* get_flag */
+int get_flag(char s, flags_t *f);
+
+/* print_alpha */
+int print_string(va_list l, flags_t *f);
+int print_char(va_list l, flags_t *f);
+
+/* write_funcs */
+int _putchar(char c);
+int _puts(char *str);
+
+/* print_custom */
+int print_rot13(va_list l, flags_t *f);
+int print_rev(va_list l, flags_t *f);
+int print_bigS(va_list l, flags_t *f);
+
+/* print_address */
+int print_address(va_list l, flags_t *f);
+
+/* print_percent */
+int print_percent(va_list l, flags_t *f);
 
 #endif
