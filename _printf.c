@@ -1,86 +1,82 @@
 #include "main.h"
 
 /**
- * check_for_specifiers - checks if there is a valid format specifier
- * @format: possible format specifier
- *
- * Return: pointer to valid function or NULL
- */
-
-static int (*check_for_specifiers(const char *format))(va_list)
+ *validation - Verifies if the format is valid.
+ *@format: Format.
+ *Return: Returns a pointer to a function or to NULL.
+ **/
+int (*validation(const char *format))(va_list)
 {
 	int i = 0;
 
-	print_t op[] = {
-		{"c", print_c},
-		{"s", print_s},
-		{"i", print_i},
-		{"d", print_d},
-		{"u", print_u},
-		{"b", print_b},
-		{"o", print_o},
-		{"x", print_x},
-		{"X", print_X},
-		{"p", print_p},
-		{"S", print_S},
-		{"r", print_r},
-		{"R", print_R},
+	printer_t op[] = {
+		{"c", _print_c},
+		{"s", _print_s},
+		{"d", _print_d},
+		{"i", _print_i},
+		{"r", _print_r},
+		{"R", _print_R},
+		{"u", _print_u},
+		{"b", _print_b},
+		{"x", _print_x},
+		{"X", _print_X},
+		{"o", _print_o},
+		{"p", _print_p},
+		{"S", _print_S},
 		{NULL, NULL}
 	};
 
-	while (op[i].type !=NULL)
+	while (op[i].type != NULL)
 	{
 		if (*(op[i].type) == *format)
 			break;
 
 		i++;
 	}
-	return (op[i].f);
-
+	return (op[i].func);
 }
 
 /**
- * _printf - prints anything
- * @format: list of argument types passed to the function
- * Return: number of characters printed
- */
+ *_printf - Prints formatted data to stdout.
+ *@format: Arguments for the function.
+ *Return: Char Quantity.
+ **/
 int _printf(const char *format, ...)
 {
-	int i = 0, count = 0;
-	
+	int i = 0, counter = 0;
+
 	va_list args;
-	int (*f)(va_list);
+	int (*func)(va_list);
 
 	if (format == NULL)
 		return (-1);
-
 	va_start(args, format);
 	while (format[i] != '\0')
 	{
-		while ( format[i] != '%' && format[i]; != '\0')
+		while (format[i] != '%' && format[i] != '\0')
 		{
 			_putchar(format[i]);
-			count++;
+			counter++;
 			i++;
 		}
 		if (format[i] == '\0')
-			return (count);
-		f = check_for_specifiers(&format[i + 1]);
-		if (f != NULL)
+			return (counter);
+		func = validation(&format[i + 1]);
+		if (func != NULL)
 		{
-			count += f(args);
+			counter += func(args);
 			i += 2;
 			continue;
 		}
 		if (format[i + 1] == '\0')
 			return (-1);
 		_putchar(format[i]);
-		count++;
+		counter++;
 		if (format[i + 1] == '%')
 			i += 2;
 		else
 			i++;
 	}
 	va_end(args);
-	return (count);
+	return (counter);
 }
