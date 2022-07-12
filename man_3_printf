@@ -5,7 +5,7 @@ SYNOPSIS
 
         #include "main.h"
 
-        int _printf(char *format, ...)
+        int _printf(const char *format, ...)
 
 DESCRIPTION
 
