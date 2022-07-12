@@ -1,97 +1,60 @@
-NAME
-	_printf
+.Sh NAME             \" Section Header - required - don't modify
+.Nm _Printf,
+.\" The following lines are read in generating the apropos(man -k) database. Use only key
+.\" words here as the database is built based on the words here and in the .ND line.
+.nm 
+.\" Use .Nm macro to designate other names for the documented program.
+.Nd Our own version of the function printf
+.Sh SYNOPSIS             \" Section Header - required - don't modify
+.Nm #include <stdio.h>    \" [-abcd]
 
-SYNOPSIS
-	
-	#include "main.h"
-
-	int _printf(const char *format, ...)
-
-DESCRIPTION
-
-	The function "_printf" is a variadic function that produces output according
-	to a format. This function writes the output to stdout (standard output).
-	
-	The format string controls the output given, it specifies how subsequent
-	arguments are converted for stdout.
-
-Format of the format string
-
-	This format string is a character string. It is composed of zero or various 
-	directives, these are: normal characters excluding "%" which are copied exact 
-	the same to the output; and the conversion specifications result adding zero
-	or more arguments.
-
-Conversion specification (%)
-
-	Each conversion specification is added using the character % and ends with a 
-	conversion specifier.
-
-
-Syntax example:
-
-	_printf("My name is %s.", str); ---> My name is <str content>.
-
-	The arguments must correspond with the conversion specifier order. The arguments
-	are used int the order given.
-
-Flags
-
-	The conversion specifier % can be followed by zero or more of these flags:
-
-	#	The value should be converted to an "alternate form".  For
-      	o conversions, the first character of the output string is
-      	made zero (by prefixing a 0 if it was not zero already).
-       	For x and X conversions, a nonzero result has the string
-        	"0x" (or "0X" for X conversions) is prepended to it.
-
-	+	A sign (+ or -) should always be placed before a number
-            produced by a signed conversion.  By default, a sign is
-            used only for negative numbers.  A + overrides a space if
-            both are used.
-
-
-
-Conversion specifiers
-	
-	Is a character followed after the % character that specifies the type of 
-	conversion to be applied. The conversion specifiers to _printf are:
-
-	d, i	The int argument is converted to signed decimal notation.
-            The precision, if any, gives the minimum number of digits
-            that must appear.
-
-	o, u, x , X
-		The unsigned int argument is converted to unsigned octal
-             (o), unsigned decimal (u), or unsigned hexadecimal (x and
-             X) notation.  The letters abcdef are used for x
-             conversions; the letters ABCDEF are used for X
-             conversions.  The precision, if any, gives the minimum
-             number of digits that must appear.
-
-	s	 The const char * argument is expected to be a pointer to
- 		 an array of character type (pointer to a string).  Characters
-             from the array are written up to (but not including) a 
-             terminating null byte ('\0').
-
-	p	The void * pointer argument is printed in hexadecimal.
-
-
-	c	The char argument is expected to be the character to be printed.
-
-	r	The char * is expected to be a pointer to a string. The characters
-		from the array are printed in reverse excluding the null byte ('\0').
-
-	R (ROT-13)
-		The char * is expected to be a pointer to a string. Characters are
-		printed using ROT 13 encryption.
-
-	S	The char * is expected to be an array of chars. Prints a string
-		with non printable characters i.e: "\".
-
-	b	The int is expected to be an unsigned int. Prints the number in binary.
-
-RETURN VALUE
-
-	On successful return, the _printf function returns the number of characters
-	printed, excluding the null byte ('\0') used to print strings.
+int _printf(const char *restrict format, ...);                \" Arguments
+.Sh DESCRIPTION          \" Section Header - required - don't modify
+The functions in the 
+.Nm printf()
+ family produce output according to a format as described below.
+.El                      \" Ends the list
+.Pp
+.\" .Sh ENVIRONMENT      \" May not be needed
+.\" .Bl -tag -width "ENV_VAR_1" -indent \" ENV_VAR_1 is width of the string ENV_VAR_1
+.\" .It Ev ENV_VAR_1
+.\" Description of ENV_VAR_1
+.\" .It Ev ENV_VAR_2
+.\" Description of ENV_VAR_2
+.\" .El
+.Sh Conversion specifiers                \" File used or created by the topic of the man page
+.Bl -tag -width "/Users/joeuser/Library/really_long_file_name" -compact
+.It d i \"-a flag as a list item
+The int argument is converted to signed decimal notation. The precision, if any, gives the 
+minimum number of digits that must appear; if the converted value requires fewer digits, 
+it is padded on the left with zeros.  The default precision is 1.  When 0 is printed with 
+an explicit precision 0, the output is empty.
+.It o, u, x, X
+(ell) A following integer conversion corresponds to a long or unsigned long argument, 
+or a following n conversion corresponds to a pointer to a long argument, or a following 
+c conversion corresponds to a wint_t argument, or a following s conversion corresponds 
+to a pointer to wchar_t argument.
+.It S
+Non printable characters (0 < ASCII value < 32 or >= 127) are printed this way: \x, 
+followed by the ASCII code value in hexadecimal (upper case - always 2 characters).
+.It c
+print char.
+.It o, u, x, X
+(Not in C99 or C11, but in SUSv2, SUSv3, and SUSv4.) Synonym for ls.  Don't use.
+.It  %
+A '%' is written.  No argument is converted.  The complete conversion specification is '%%'.
+.El                      \" Ends the list
+.\" .Sh DIAGNOSTICS       \" May not be needed
+.\" .Bl -diag
+.\" .It Diagnostic Tag
+.\" Diagnostic informtion here.
+.\" .It Diagnostic Tag
+.\" Diagnostic informtion here.
+.\" .El
+.Sh RETURN VALUE
+.\" List links in ascending order by section, alphabetically within a section.
+.\" Please do not reference files that do not exist without filing a bug report
+.Xr Upon successful return, these functions return the number of characters printed 
+(excluding the null byte used to end output to strings).
+.\" .Sh BUGS              \" Document known, unremedied bugs
+.\" .Sh HISTORY           \" Document history if command behaves in a unique manner

@@ -1,38 +1,49 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef HEADER_H
+#define HEADER_H
 
+#include <stdarg.h>
 #include <stdlib.h>
-#include <stdarg.h> /*This library includes va_list and macros*/
-#include <stddef.h>
-/**
- *struct printer - Struct used to print different types.
- *@type: Data type to print.
- *@func: Function to print;
- **/
-typedef struct printer
-{
-	char *type;
-	int (*func)(va_list);
-} printer_t;
+#include <unistd.h>
 
-int _putchar(char);
 int _printf(const char *format, ...);
-int _print_c(va_list c);
-int _print_s(va_list s);
-int _print_i(va_list i);
-int _print_d(va_list d);
-int _print_r(va_list r);
-int _print_S(va_list S);
-int _print_R(va_list R);
-int _print_b(va_list b);
-int _print_x(va_list x);
-int _print_X(va_list X);
-int _print_o(va_list o);
-int _print_u(va_list u);
-int _print_p(va_list p);
 
-/*Function to print hexa*/
-int _print_hexa(unsigned int n, int c);
-/*Function to print hexa*/
-int _print_hexa_aux(unsigned long num_d);
+/**
+ * struct case_match - Stores a flag and the function
+ * pointer associated with it
+ * @c: Pointer to the flag
+ * @f: Pointer to function
+ *
+ * Description: Longer description
+ */
+typedef struct case_match
+{
+	char *c;
+	int (*f)(va_list, char **);
+} c_mtc;
+/* ------------------------------------*/
+int _putchar(char *, int);
+int _strlen(char *);
+char *_strcpy(char *, char *);
+char *_strcat(char *, char *);
+/* --------------------------- */
+int char_case(va_list, char **);
+int string_case(va_list, char **);
+int digit_case_u(va_list ptr, char **);
+int digit_case_S(va_list ptr, char **);
+int digit_case_address(va_list ptr, char **);
+
+int digit_base_10(va_list, char **);
+int digit_base_2(va_list, char **);
+int digit_base_8(va_list, char **);
+int digit_base_16_lower(va_list, char **);
+int digit_base_16_upper(va_list, char **);
+
+int rot13(va_list list, char **add);
+/*------------------------------------*/
+int restriction_percentage(const char *str);
+int (*match_case(const char *))(va_list, char **);
+int convert_base(int base, long int number, int band, char **);
+int print_number(long int n, char **add);
+int print_rev_string(va_list list, char **add);
+
 #endif
