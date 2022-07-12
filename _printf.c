@@ -4,7 +4,7 @@
  * @format: A variable that points to a list of arguments
  * @...: The rest of the arguments
  *
- * Return: the length of the printed string
+ * Return: the length of the printed strin
  */
 int _printf(const char *format, ...)
 {
