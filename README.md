@@ -1,127 +1,339 @@
-Implementing standard printf function in C programming Language
+# printf()
+The printf project is a collaboration project by **Kolade Fatai Opeyemi** and **Meegan Mabyana**, students of the ALX Software Engineering Programme Cohort 7, 2022, in which a function named "_printf" imitates the actual "printf" command located in the stdio.h library. It contains some of the basic features and functions found in the manual 3 of "printf".
 
-Allowed editors: vi, vim, emacs
-All your files will be compiled on Ubuntu 20.04 LTS using gcc, using the options -Wall -Werror -Wextra -pedantic -std=gnu89
-All your files should end with a new line
-A README.md file, at the root of the folder of the project is mandatory
-Your code should use the Betty style. It will be checked using betty-style.pl and betty-doc.pl
-You are not allowed to use global variables
-No more than 5 functions per file
-In the following examples, the main.c files are shown as examples. You can use them to test your functions, but you don’t have to push them to your repo (if you do we won’t take them into account). We will use our own main.c files at compilation. Our main.c files might be different from the one shown in the examples
-The prototypes of all your functions should be included in your header file called main.h
-Don’t forget to push your header file
-All your header files should be include guarded
-Note that we will not provide the _putchar function for this project
+_printf() is a function that performs formatted output conversion and prints data. Its prototype is the following:
 
-TASK 0:
-Write a function that produces output according to a format.
+	int _printf(const char *format, ...)
 
-Prototype: int _printf(const char *format, ...);
-Returns: the number of characters printed (excluding the null byte used to end output to strings)
-write output to stdout, the standard output stream
-format is a character string. The format string is composed of zero or more directives. See man 3 printf for more detail. You need to handle the following conversion specifiers:
-c
-s
-%
-You don’t have to reproduce the buffer handling of the C library printf function
-You don’t have to handle the flag characters
-You don’t have to handle field width
-You don’t have to handle precision
-You don’t have to handle the length modifiers
+Where **format** contains the string that is printed. As _printf() is variadic function, it can receives n arguments that replace by n tags written inside the string.
 
-Task 1:
-Handle the following conversion specifiers:
+The format tags prototype is the following:
 
-d
-i
-You don’t have to handle the flag characters
-You don’t have to handle field width
-You don’t have to handle precision
-You don’t have to handle the length modifiers
+	%[flags][length]specifier
+	
+If the program runs successfully, the **return value** is the amount of chars printed.
+	
+| Specifier | Output |
+| ------------- | ------------- |
+| c  | Character  |
+| d or i | Signed decimal integer |
+| s  | String of characters  |
+| b  | Signed binary  |
+| o  | Signed octal  |
+| u  | Unsigned integer  |
+| x  | Unsigned hexadecimal  |
+| X  | Unsigned hexadecimal (uppercase)  |
+| p  | Pointer address  |
+| r  | Reverse string of characters |
+| R  | ROT13 translation of string |
+| S  | String with special chars replaced by their ASCII value  |
+| %  | Character  |
 
-Task 2
+| Flags | Description | Specifiers |
+| ------------- | ------------- | ------------- | 
+| +  | Prints a plus sign (+) when the argument is a positive number. In other case, prints a minus sign (-). | i, d |
+| (space) | Prints a blank space if the argument is a positive number | i, d |
+| #  | Prints 0, 0x and 0X for o, x and X specifiers, respectively. It doesn't print anything if the argument is zero | o, x, X |
 
-Handle the following custom conversion specifiers:
+| Length | Description | Specifiers |
+| ------------- | ------------- | ------------- | 
+| l | Prints a long int or unsigned long int | i, d, o, u, x and X |
+| h | Prints a short int or unsigned short int | i, d, o, u, x and X |
 
-b: the unsigned int argument is converted to binary
+------------
 
-Task 3
+## Examples
 
-Handle the following conversion specifiers:
+1. Printing the string of chars "Hello, Jesus":
+	+ Use: `_printf("Hello Je%s.", "sus");`
+	+ Output: `Hello Jesus.`
+	
+2. Printing an integer number:
+	+ Use: `_printf("20 + 20 is equal to %d.", 40);`
+	+ Output: `20 + 20 is equal to 40.`
+	
+3. Printing a binary, octal and hexadecimal:
+	+ Use: `_printf("10 in binary is [%b], in octal is [%o] and in hexadecimal is [%x]", 5, 5, 5);`
+	+ Output: `10 in binary is [1010], in octal is [12] and in hexadecimal is [A]`
+	
+4. Printing a string codified in ROT13:
+	+ Use: `_printf("Hello in ROT13 is %R", "Hello");`
+	+ Output: `Hello in ROT13 is Urybb`
 
-u
-o
-x
-X
-You don’t have to handle the flag characters
-You don’t have to handle field width
-You don’t have to handle precision
-You don’t have to handle the length modifiers
+Using flags and length tags:
 
-Task 4
+5. Printing the string of chars "Hello, Jesus":
+	+ Use: `_printf("2 * 2 = %+d and 5 * -5 = %+i", 4, -25);`
+	+ Output: `2 * 2 = +4 and 5 * -5 = -25`
+	
+6. Printing a long integer number and short integer number:
+	+ Use: `_printf("1 million as a long int is %ld, but as a short int is %hd", 1000000, 1000000);`
+	+ Output: `1 million as a long int is 1000000, but as a short int is 16960`
 
-Use a local buffer of 1024 chars in order to call write as little as possible.
 
-Task 5
+------------
 
-Handle the following custom conversion specifier:
+## File Functions
 
-S : prints the string.
-Non printable characters (0 < ASCII value < 32 or >= 127) are printed this way: \x, followed by the ASCII code value in hexadecimal (upper case - always 2 characters)
+### [_printf.c](https://github.com/MeeganM/printf/blob/master/_printf.c)
+Own Printf Function That Performs Formatted Output Conversion And Print Data.
 
-Task 6
+------------
 
-Handle the following conversion specifier: p.
+### [main.h](https://github.com/MeeganM/printf/blob/master/main.h)
+Header File Where All Prototypes Are Saved.
 
-You don’t have to handle the flag characters
-You don’t have to handle field width
-You don’t have to handle precision
-You don’t have to handle the length modifiers
+------------
 
-Task 7
+### [get_print_func.c](https://github.com/MeeganM/printf/blob/master/get_print_func.c)
+Pointer To A Function That Selects The Correct Function To Perform The Operation.
 
-Handle the following flag characters for non-custom conversion specifiers:
+------------
 
-+
-space
-#
+### [print_buf.c](https://github.com/MeeganM/printf/blob/master/print_buf.c)
+Function That Prints The Buffer.
 
-Task 8
+------------
 
-Handle the following length modifiers for non-custom conversion specifiers:
+### [handl_buf.c](https://github.com/MeeganM/printf/blob/master/handl_buf.c)
+Function That Concatenates The Buffer Characters.
 
-l
-h
-Conversion specifiers to handle: d, i, u, o, x, X
+------------
 
-Task 9
+### [print_chr.c](https://github.com/MeeganM/printf/blob/master/print_chr.c)
+Function That Writes The Character C To Stdout.
+```c
+/* Indetifier : %c */
+```
 
-Handle the field width for non-custom conversion specifiers.
+------------
 
-Task 10
+### [print_str.c](https://github.com/MeeganM/printf/blob/master/print_str.c)
+Function That Writes The String To Stdout.
+```c
+/* Indetifier : %s */
+```
 
-Handle the precision for non-custom conversion specifiers.
+------------
 
-Task 11
+### [print_int.c](https://github.com/MeeganM/printf/blob/master/print_int.c)
+Function That Prints An Integer.
+```c
+/* Indetifier : %i or %d */
+```
 
-Handle the 0 flag character for non-custom conversion specifiers.
+------------
 
-Task 12
+### [print_bnr.c](https://github.com/MeeganM/printf/blob/master/print_bnr.c)
+Function That Prints Decimal In Binary.
+```c
+/* Indetifier : %b */
+```
 
-Handle the - flag character for non-custom conversion specifiers.
+------------
 
-Task 13
+### [print_oct.c](https://github.com/MeeganM/printf/blob/master/print_oct.c)
+Function That Prints Decimal In Octal.
+```c
+/* Indetifier : %o */
+```
 
-Handle the following custom conversion specifier:
+------------
 
-r : prints the reversed string
+### [print_hex.c](https://github.com/MeeganM/printf/blob/master/print_hex.c)
+Function That Prints Decimal In Hexadecimal.
+```c
+/* Indetifier : %x */
+```
 
-Task 14
+------------
 
-Handle the following custom conversion specifier:
+### [print_upx.c](https://github.com/MeeganM/printf/blob/master/print_upx.c)
+Function That Prints Decimal In Uppercase Hexadecimal.
+```c
+/* Indetifier : %X */
+```
 
-R: prints the rot13'ed string
+------------
 
-Task 15
+### [print_usr.c](https://github.com/MeeganM/printf/blob/master/print_usr.c)
+Function That Prints A String And Values Of Non-Printed Chars.
+```c
+/* Indetifier : %S */
+```
 
-All the above options work well together.
+------------
+
+### [print_unt.c](https://github.com/MeeganM/printf/blob/master/print_unt.c)
+Function That Prints An Unsigned Integer.
+```c
+/* Indetifier : %u */
+```
+
+------------
+
+### [print_rev.c](https://github.com/MeeganM/printf/blob/master/print_rev.c)
+Function That Writes The String To Stdout In Reverse.
+```c
+/* Indetifier : %r */
+```
+
+------------
+
+### [print_rot.c](https://github.com/MeeganM/printf/blob/master/print_rot.c)
+Function That Writes The String To Stdout In Rot13.
+```c
+/* Indetifier : %R */
+```
+
+------------
+
+### [print_add.c](https://github.com/MeeganM/printf/blob/master/print_add.c)
+Function That Prints The Address Of An Input Variable.
+```c
+/* Indetifier : %p */
+```
+
+------------
+
+### [print_long_oct.c](https://github.com/MeeganM/printf/blob/master/print_long_oct.c)
+Function That Prints Long Decimal Number In Octal.
+```c
+/* Indetifier : %lo */
+```
+
+------------
+
+### [print_long_hex.c](https://github.com/MeeganM/printf/blob/master/print_long_hex.c)
+Function That Prints Long Decimal Number In Hexadecimal.
+```c
+/* Indetifier : %lx */
+```
+
+------------
+
+### [print_long_int.c](https://github.com/MeeganM/printf/blob/master/print_long_int.c)
+Function That Prints  A Long Integer.
+```c
+/* Indetifier : %li */
+```
+
+------------
+
+### [print_long_upx.c](https://github.com/MeeganM/printf/blob/master/print_long_upx.c)
+Function That Prints A Long Decimal In Uppercase Hexadecimal.
+```c
+/* Indetifier : %lX */
+```
+
+------------
+
+### [print_long_unt.c](https://github.com/MeeganM/printf/blob/master/print_long_unt.c)
+Function That Prints A Long Unsigned Integer.
+```c
+/* Indetifier : %lu */
+```
+
+------------
+
+### [print_short_oct.c](https://github.com/MeeganM/printf/blob/master/print_short_oct.c)
+Function That Prints Short Decimal Number In Octal.
+```c
+/* Indetifier : %ho */
+```
+
+------------
+
+### [print_short_hex.c](https://github.com/MeeganM/printf/blob/master/print_short_hex.c)
+Function That Prints Short Decimal Number In Hexadecimal.
+```c
+/* Indetifier : %hx */
+```
+
+------------
+
+### [print_short_int.c](https://github.com/MeeganM/printf/blob/master/print_short_int.c)
+Function That Prints  A Short Integer.
+```c
+/* Indetifier : %hi */
+```
+
+------------
+
+### [print_short_upx.c](https://github.com/MeeganM/printf/blob/master/print_short_upx.c)
+Function That Prints A Short Decimal In Uppercase Hexadecimal.
+```c
+/* Indetifier : %hX */
+```
+
+------------
+
+### [print_short_unt.c](https://github.com/MeeganM/printf/blob/master/print_short_unt.c)
+Function That Prints A Short Unsigned Integer.
+```c
+/* Indetifier : %hu */
+```
+
+------------
+
+### [print_num_hex.c](https://github.com/MeeganM/printf/blob/master/print_num_hex.c)
+Function That Print A Number In Hexadecimal Begining With 0 And x.
+```c
+/* Indetifier : %#x */
+```
+
+------------
+
+### [print_num_oct.c](https://github.com/MeeganM/printf/blob/master/print_num_oct.c)
+Function That Prints A Number In Octal Begining With 0 And o.
+```c
+/* Indetifier : %#o */
+```
+
+------------
+
+### [print_num_upx.c](https://github.com/MeeganM/printf/blob/master/print_num_upx.c)
+Function That Prints A Number In Uppercase Hexadecimal.
+```c
+/* Indetifier : %#X */
+```
+
+------------
+
+### [print_prg.c](https://github.com/MeeganM/printf/blob/master/print_prg.c)
+Function That Prints An Integer With Plus Symbol.
+```c
+/* Indetifier : % */
+```
+
+------------
+
+### [print_plus_int.c](https://github.com/MeeganM/printf/blob/master/print_plus_int.c)
+Function That Prints An Integer With Plus Symbol.
+```c
+/* Indetifier : %+i */
+```
+
+------------
+
+### [print_space_int.c](https://github.com/MeeganM/printf/blob/master/print_space_int.c)
+Function That Prints An Integer Begining With 0 And u.
+```c
+/* Indetifier : % i */
+```
+
+------------
+
+### [ev_print_func.c](https://github.com/MeeganM/printf/blob/master/ev_print_func.c)
+Function That Returns The Amount Of Indetifiers.
+
+------------
+
+## Authors :pen:
+Kolade Fatai Opeyemi <adedayo924@gmail.com>
+
+Meegan Mabyana <mositoameegan@gmail.com>
+
+------------
+
+### End
